@@ -1,21 +1,98 @@
 <section data-ng-controller="CotisesController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="cotise.name"></h1>
-	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == cotise.user._id))">
-		<a class="btn btn-primary" href="/#!/cotises/{{cotise._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="cotise.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="cotise.user.displayName"></span>
-		</em>
-	</small>
+  <div class="jumbotron ctz-jumbotron">
+    <h1 data-ng-bind="cotise.title"></h1>
+    <p data-ng-bind="cotise.description"></p>
+
+    <table class="ctz-table" style="border-spacing: 10px; border-collapse: separate;">
+      <tr>
+        <td class="ctz-right">
+          <h3>Contributions</h3>
+        </td>
+        <td>
+          <h3><span id="contributions" class="label label-default">{{cotise.contributions.length}}</span></h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="ctz-right">
+          <h3>Amount</h3>
+        </td>
+        <td>
+          <h3><span id="total" class="label label-default">{{cotise.total|currency}}</span></h3>
+        </td>
+      </tr>
+    </table>
+
+    <div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == cotise.user._id))">
+      <a class="btn btn-primary" href="/#!/cotises/{{cotise._id}}/edit">
+        <i class="glyphicon glyphicon-edit"></i>
+      </a>
+      <a class="btn btn-primary" data-ng-click="remove();">
+        <i class="glyphicon glyphicon-trash"></i>
+      </a>
+    </div>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="cotise.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-bind="cotise.user.displayName"></span>
+      </em>
+    </small>
+  </div>
+
+  <div>
+
+    <div class="row clearfix">
+      <div class="col-md-6 column">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">New contribution</h3>
+          </div>
+          <div class="panel-body">
+            <form name="contribForm" role="form" ng-submit="addContrib()">
+              <label class="control-label" for="inputName">Name</label>
+              <div class="form-group" ng-class="{'has-error': contribForm.name.$invalid, 'has-success': contribForm.name.$valid}">
+                <input id="inputName" name="name" type="text" class="form-control" required
+                      ng-model="cotise.newContributionUsername" placeholder="Your name">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="amnout">Contribution</label>
+                <div class="input-group form-group">
+                  <input id="inputContribution" name="amnout" class="form-control" money required
+                         ng-model="cotise.newContributionAmount" placeholder="Your contribution amount">
+                  <span class="input-group-addon">$</span>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-default">Cotize !</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 column">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Current contributions</h3>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Contribution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="contrib in cotise.contributions">
+                <td>{{$index+1}}</td>
+                <td>{{contrib.username}}</td>
+                <td>{{contrib.amount|currency}}</td>
+                <!-- {{contrib.user.displayName}} -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
