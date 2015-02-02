@@ -1,7 +1,8 @@
 <section data-ng-controller="CotisesController">
-  <br/>
-  <div class="jumbotron">
+  <div class="page-header">
     <h1>New Cotise</h1>
+  </div>
+  <div class="col-md-12">
     <form name="createForm" role="form" class="form-horizontal" data-ng-submit="create()" novalidate>
       <fieldset>
         <div class="form-group">
@@ -17,7 +18,7 @@
           </div>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-lg">Create !</button> <!-- ng-disabled="createForm.$invalid" -->
+          <button type="submit" class="btn btn-primary btn-lg">Create</button> <!-- ng-disabled="createForm.$invalid" -->
         </div>
         <div data-ng-show="error" class="text-danger">
           <strong data-ng-bind="error"></strong>
